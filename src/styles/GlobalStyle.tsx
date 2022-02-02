@@ -2,7 +2,7 @@
 
 import { createGlobalStyle } from 'styled-components';
 
-export const GlobalStyle = createGlobalStyle`
+export const GlobalStyleComponents = createGlobalStyle`
 * {
   margin: 0;
   padding: 0;
@@ -20,13 +20,9 @@ export const GlobalStyle = createGlobalStyle`
   --white: #FFFFFF;
 }
 
-h1 {
-  color: var(--white)
-}
-
 body {
-  background-color: var(--black-600);
-  font-family: 'Reboto Condensed', sans-serif;
+	background-color: var(--black-600);
+	font-family: Poppins;
 }
 
 
@@ -35,7 +31,7 @@ input,
 textarea,
 select,
 button {
-  font: 400, 0.825rem, 'Reboto Condensed', sans-serif;
+  font: 400, 0.825rem, 'Poppins';
   color: var(--color-white);
 }
 
@@ -60,13 +56,13 @@ a {
 }
 `;
 
-const BasicLayout = ({ children }: { children: any }) => {
+const GlobalStyle = ({ children }: { children: any }) => {
 	return (
 		<>
-			<GlobalStyle />
+			<GlobalStyleComponents />
 			{children}
 		</>
 	);
 };
 
-export default BasicLayout;
+export default GlobalStyle;

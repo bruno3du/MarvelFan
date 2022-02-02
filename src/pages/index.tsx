@@ -2,7 +2,8 @@
 
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import BasicLayout from '../styles/basic';
+import BasicLayout from '../styles/GlobalStyle';
+import Header from '../components/Header';
 
 const Home: NextPage = () => {
 	return (
@@ -10,7 +11,7 @@ const Home: NextPage = () => {
 			<Head>
 				<title>Marvel</title>
 			</Head>
-			
+			<Header />
 		</BasicLayout>
 	);
 };
