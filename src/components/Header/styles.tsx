@@ -3,20 +3,21 @@
 import styled from 'styled-components';
 
 export const Componente = styled.header`
-	width: 90%;
+	width: calc(100% - 1.875rem);
 	max-width: 1300px;
-	background-color: var(--black-700);
-	border: 3px solid black;
 	margin: 0 auto;
-	margin-top: 34px;
 	color: var(--white);
 
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: 24px 50px;
-	gap: 30px;
+	padding: 1.5rem 3.125rem;
+	gap: 1.875rem;
 	flex-wrap: wrap;
+
+	@media (max-width: 590px) {
+		justify-content: center;
+	};
 
 	.selected {
 		color: #9c9b9b;
@@ -29,10 +30,11 @@ export const Componente = styled.header`
 			display: flex;
 			li {
 				font-weight: 600;
+				font-size: 0.875rem;
 				cursor: pointer;
 
 				& + li {
-					margin-left: 30px;
+					margin-left: 1.875rem;
 				}
 			}
 		}

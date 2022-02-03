@@ -15,14 +15,15 @@ export const GlobalStyleComponents = createGlobalStyle`
   --gray-700: #484747;
   --gray-500: #9C9B9B
   --gray-400: #C4C4C4;
-  --red-700: #E62429
+  --red-700: #E62429;
   --red-650: #ED1D24;
   --white: #FFFFFF;
 }
 
 body {
 	background-color: var(--black-600);
-	font-family: Poppins;
+	font-family: Roboto, sans-serif;
+  color: var(--white);
 }
 
 
@@ -31,8 +32,11 @@ input,
 textarea,
 select,
 button {
-  font: 400, 0.825rem, 'Poppins';
-  color: var(--color-white);
+  font: 400, 0.825rem, Roboto, sans-sarif;
+}
+
+input {
+  border: none;
 }
 
 button {

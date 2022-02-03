@@ -5,6 +5,7 @@ import { Componente } from './styles';
 import marvelLogo from '../../assets/images/Marvel_Logo.svg';
 import Image from 'next/image';
 import { ActiveLink } from '../ActiveLink';
+
 export default function Index() {
 	return (
 		<Componente>
