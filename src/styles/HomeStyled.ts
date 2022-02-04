@@ -11,14 +11,27 @@ export const Container = styled.main`
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+
+		@media (max-width: 670px) {
+			flex-direction: column;
+			justify-content: center;
+
+			h1 {
+				margin-bottom: 20px;
+			}
+		}
 	}
 
 	hr {
-		margin-top: 3px;
+		margin: 3px 0 2.5rem 0;
 		width: 50%;
 		border: 2px solid var(--red-700);
-		margin-bottom: 2.5rem;
 		border-radius: 0.625rem;
+
+		@media (max-width: 670px) {
+			width: 90%;
+			margin: 20px auto 20px auto;
+		}
 	}
 `;
 

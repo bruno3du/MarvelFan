@@ -11,9 +11,9 @@ export default function Card() {
 			<div>
 				<Image
 					src={HomemAranha}
-					width='320px'
-					height='200px'
 					alt='Homem Aranha'
+					width="500px"
+					height="300px"
 				/>
 			</div>
 			<div>

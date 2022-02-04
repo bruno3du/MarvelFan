@@ -4,6 +4,8 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
 	position: relative;
+	width: 100%;
+	max-width: 300px;
 
 	div {
 		color: black;
@@ -19,6 +21,7 @@ export const Container = styled.div`
 	}
 
 	input {
+		width: 100%;
 		color: var(--black-700);
 		border-radius: 0.625rem;
 		font-size: 1rem;
@@ -27,6 +30,10 @@ export const Container = styled.div`
 
 		&::placeholder {
 			font-size: 1rem;
+		}
+
+		@media (max-width: 690px) {
+			border-radius: 0.525rem;
 		}
 	}
 `;

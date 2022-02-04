@@ -13,7 +13,7 @@ export const GlobalStyleComponents = createGlobalStyle`
   --black-700: #151515;
   --black-600: #202020;
   --gray-700: #484747;
-  --gray-500: #9C9B9B
+  --gray-500: #9C9B9B;
   --gray-400: #C4C4C4;
   --red-700: #E62429;
   --red-650: #ED1D24;
@@ -25,7 +25,6 @@ body {
 	font-family: Roboto, sans-serif;
   color: var(--white);
 }
-
 
 body,
 input,

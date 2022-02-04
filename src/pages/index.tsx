@@ -3,18 +3,17 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Card from '../components/Card';
+import Pagination from '../components/Pagination';
 import Search from '../components/Search';
-import BasicLayout from '../styles/GlobalStyle';
-import { Container, ListOfCard } from '../styles/Home';
+import GlobalStyle from '../styles/GlobalStyle';
+import { Container, ListOfCard } from '../styles/HomeStyled';
 
 const Home: NextPage = () => {
 	return (
-		<>
-			<BasicLayout>
-				<Head>
-					<title>Marvel</title>
-				</Head>
-			</BasicLayout>
+		<GlobalStyle>
+			<Head>
+				<title>Marvel</title>
+			</Head>
 
 			<Container>
 				<div>
@@ -33,8 +32,9 @@ const Home: NextPage = () => {
 					<Card />
 					<Card />
 				</ListOfCard>
+				<Pagination limit={5} current={1} offset={0} total={20} />
 			</Container>
-		</>
+		</GlobalStyle>
 	);
 };
 
