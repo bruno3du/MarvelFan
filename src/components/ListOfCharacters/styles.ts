@@ -2,7 +2,7 @@
 
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const Card = styled.div`
 	min-width: 220px;
 	max-width: 320px;
 	border-radius: 0.625rem;

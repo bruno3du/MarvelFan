@@ -21,7 +21,7 @@ export default function Index() {
 						<li>CHARACTERS</li>
 					</ActiveLink>
 					<ActiveLink activeClassName='selected' href='/comic'>
-						<li>COMIC</li>
+						<li>COMICS</li>
 					</ActiveLink>
 					<ActiveLink activeClassName='selected' href='/series'>
 						<li>SERIES</li>

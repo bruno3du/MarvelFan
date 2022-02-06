@@ -33,6 +33,14 @@ export default function Characters() {
 						<h2>SÉRIES</h2>
 					</div>
 					<SlideOfCard />
+					<div className='character-name'>
+						<h2>CREATORS</h2>
+					</div>
+					<SlideOfCard />
+					<div className='character-name'>
+						<h2>COMICS / HQ</h2>
+					</div>
+					<SlideOfCard />
 				</section>
 			</Container>
 		</GlobalStyle>

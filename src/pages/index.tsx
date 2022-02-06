@@ -2,19 +2,34 @@
 
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Card from '../components/Card';
+import { useCallback, useEffect, useState } from 'react';
+import ListOfCharacters from '../components/ListOfCharacters';
 import Pagination from '../components/Pagination';
 import Search from '../components/Search';
+import { useMarvel } from '../context/MarvelContext';
 import GlobalStyle from '../styles/GlobalStyle';
 import { Container, ListOfCard } from '../styles/HomeStyled';
 
 const Home: NextPage = () => {
+	const { getAllCharacters, allCharacters } = useMarvel();
+	const [offset, setOffset] = useState(0);
+
+	const handlePagination = useCallback(
+		(type: string) => {
+			getAllCharacters(type, offset);
+		},
+		[offset, getAllCharacters]
+	);
+
+	useEffect(() => {
+		handlePagination('characters');
+	}, [handlePagination]);
+
 	return (
 		<GlobalStyle>
 			<Head>
 				<title>Marvel</title>
 			</Head>
-
 			<Container>
 				<div>
 					<h1>CHARACTERS</h1>
@@ -22,17 +37,14 @@ const Home: NextPage = () => {
 				</div>
 				<hr />
 				<ListOfCard>
-					<Card />
-					<Card />
-					<Card />
-					<Card />
-					<Card />
-					<Card />
-					<Card />
-					<Card />
-					<Card />
+					{true && <ListOfCharacters results={allCharacters.results} />}
 				</ListOfCard>
-				<Pagination limit={5} current={1} offset={0} total={20} />
+				<Pagination
+					setOffset={setOffset}
+					limit={allCharacters.limit}
+					total={allCharacters.total}
+					offset={allCharacters.offset}
+				/>
 			</Container>
 		</GlobalStyle>
 	);
