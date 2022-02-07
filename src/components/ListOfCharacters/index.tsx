@@ -6,7 +6,8 @@ import { Card } from './styles';
 
 interface CharacterType {
 	id: number;
-	name: string;
+	name?: string;
+	title?: string;
 	description: string;
 	modified: Date;
 	thumbnail: {

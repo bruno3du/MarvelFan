@@ -2,7 +2,9 @@
 
 import {
 	createContext,
+	Dispatch,
 	ReactNode,
+	SetStateAction,
 	useCallback,
 	useContext,
 	useState,
@@ -13,7 +15,8 @@ import { formatDate } from '../utils/formatDate';
 
 interface CharacterType {
 	id: number;
-	name: string;
+	name?: string;
+	title?: string;
 	description: string;
 	modified: Date;
 	thumbnail: {
@@ -32,8 +35,22 @@ interface AllCharactersType {
 interface MarvelContexttype {
 	allCharacters: AllCharactersType;
 	loading: boolean;
-
-	getAllCharacters: (type?: string, offset?: number) => void;
+	getAllComics: (offset?: number) => void;
+	getAllCharacters: (offset?: number) => void;
+	typeList: {
+		characters: boolean;
+		comics: boolean;
+		series: boolean;
+		stories: boolean;
+	};
+	setTypeList: Dispatch<
+		SetStateAction<{
+			characters: boolean;
+			comics: boolean;
+			series: boolean;
+			stories: boolean;
+		}>
+	>;
 }
 
 export const MarvelContext = createContext({} as MarvelContexttype);
@@ -44,19 +61,25 @@ export default function MarvelProvider({ children }: { children: ReactNode }) {
 	const LIMITE = 9;
 	const [loading, setLoading] = useState(false);
 	const [allCharacters, setAllCharacters] = useState({} as AllCharactersType);
+	const [typeList, setTypeList] = useState({
+		characters: true,
+		comics: false,
+		series: false,
+		stories: false,
+	});
 
 	const getAllCharacters = useCallback(
-		(type: string = 'characters', offset: number = 0) => {
+		(offset: number = 0) => {
 			setLoading(true);
 			const timestamp = new Date().getTime();
 			const hash = MD5(timestamp + apiKeyPrivate! + apiKey!).toString();
 			apiMarvel
 				.get(
-					`${type}?limit=${LIMITE}&offset=${offset}&ts=${timestamp}&apikey=${apiKey}&hash=${hash}`
+					`characters?limit=${LIMITE}&offset=${offset}&ts=${timestamp}&apikey=${apiKey}&hash=${hash}`
 				)
 				.then((res) => {
 					const data = res.data.data;
-					console.log(res)
+
 					setAllCharacters({
 						count: data.count,
 						limit: data.limit,
@@ -83,17 +106,74 @@ export default function MarvelProvider({ children }: { children: ReactNode }) {
 		[apiKey, apiKeyPrivate]
 	);
 
+	const getAllComics = useCallback(
+		(offset: number = 0) => {
+			setLoading(true);
+			const timestamp = new Date().getTime();
+			const hash = MD5(timestamp + apiKeyPrivate! + apiKey!).toString();
+			apiMarvel
+				.get(
+					`comics?limit=${LIMITE}&offset=${offset}&ts=${timestamp}&apikey=${apiKey}&hash=${hash}`
+				)
+				.then((res) => {
+					const data = res.data.data;
+					console.log(data.results);
+					setAllCharacters({
+						count: data.count,
+						limit: data.limit,
+						offset: data.offset,
+						total: data.total,
+						results: data.results.map((ele: CharacterType) => {
+							const newDate = formatDate(ele.modified);
+							return {
+								id: ele.id,
+								title: ele.title,
+								description: ele.description,
+								modified: newDate,
+								thumbnail: ele.thumbnail,
+							};
+						}),
+					});
+				})
+				.catch((err) => {
+					console.log(err);
+				})
+				.finally(() => setLoading(false));
+		},
+		[apiKey, apiKeyPrivate]
+	);
+
 	return (
 		<MarvelContext.Provider
-			value={{ loading, allCharacters, getAllCharacters }}>
+			value={{
+				loading,
+				allCharacters,
+				getAllCharacters,
+				getAllComics,
+				typeList,
+				setTypeList,
+			}}>
 			{children}
 		</MarvelContext.Provider>
 	);
 }
 
 export const useMarvel = () => {
-	const { allCharacters, getAllCharacters, loading } =
-		useContext(MarvelContext);
+	const {
+		allCharacters,
+		getAllCharacters,
+		loading,
+		getAllComics,
+		typeList,
+		setTypeList,
+	} = useContext(MarvelContext);
 
-	return { allCharacters, getAllCharacters, loading };
+	return {
+		allCharacters,
+		getAllCharacters,
+		loading,
+		getAllComics,
+		typeList,
+		setTypeList,
+	};
 };

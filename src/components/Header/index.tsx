@@ -4,9 +4,57 @@ import { Componente } from './styles';
 
 import marvelLogo from '../../assets/images/Marvel_Logo.svg';
 import Image from 'next/image';
-import { ActiveLink } from '../ActiveLink';
+import { useMarvel } from '../../context/MarvelContext';
 
-export default function Index() {
+export default function Header() {
+	const { setTypeList, typeList } = useMarvel();
+
+	function setType(type: string) {
+		switch (type) {
+			case 'characters':
+				setTypeList({
+					characters: true,
+					comics: false,
+					series: false,
+					stories: false,
+				});
+				break;
+			case 'comics':
+				setTypeList({
+					characters: false,
+					comics: true,
+					series: false,
+					stories: false,
+				});
+				break;
+			case 'series':
+				setTypeList({
+					characters: false,
+					comics: false,
+					series: true,
+					stories: false,
+				});
+				break;
+			case 'stories':
+				setTypeList({
+					characters: false,
+					comics: false,
+					series: false,
+					stories: true,
+				});
+				break;
+
+			default:
+				setTypeList({
+					characters: true,
+					comics: false,
+					series: false,
+					stories: false,
+				});
+				break;
+		}
+	}
+
 	return (
 		<Componente>
 			<Image
@@ -15,20 +63,29 @@ export default function Index() {
 				src={marvelLogo}
 				alt='Logo da Marvel'
 			/>
+
 			<nav>
 				<ul>
-					<ActiveLink activeClassName='selected' href='/'>
-						<li>CHARACTERS</li>
-					</ActiveLink>
-					<ActiveLink activeClassName='selected' href='/comic'>
-						<li>COMICS</li>
-					</ActiveLink>
-					<ActiveLink activeClassName='selected' href='/series'>
-						<li>SERIES</li>
-					</ActiveLink>
-					<ActiveLink activeClassName='selected' href='/stories'>
-						<li>STORIES</li>
-					</ActiveLink>
+					<li
+						className={typeList.characters ? 'selected' : ''}
+						onClick={() => setType('characters')}>
+						CHARACTERS
+					</li>
+					<li
+						className={typeList.comics ? 'selected' : ''}
+						onClick={() => setType('comics')}>
+						COMICS
+					</li>
+					<li
+						className={typeList.series ? 'selected' : ''}
+						onClick={() => setType('series')}>
+						SERIES
+					</li>
+					<li
+						className={typeList.stories ? 'selected' : ''}
+						onClick={() => setType('stories')}>
+						STORIES
+					</li>
 				</ul>
 			</nav>
 		</Componente>
