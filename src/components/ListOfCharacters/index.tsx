@@ -27,7 +27,7 @@ export default function ListOfCharacters({ results }: ListOfCharactersType) {
 				const image = `${character.thumbnail.path}/landscape_incredible.${character.thumbnail.extension}`;
 
 				function setDescription(des: string) {
-					if (des.length >= 50) {
+					if (des?.length >= 50) {
 						const description = character.description.substring(0, 100) + '...';
 						return description;
 					}

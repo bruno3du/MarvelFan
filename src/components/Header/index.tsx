@@ -7,7 +7,14 @@ import Image from 'next/image';
 import { useMarvel } from '../../context/MarvelContext';
 
 export default function Header() {
-	const { setTypeList, typeList } = useMarvel();
+	const {
+		setTypeList,
+		typeList,
+		getAllCharacters,
+		getAllComics,
+		getAllSeries,
+		getAllStories,
+	} = useMarvel();
 
 	function setType(type: string) {
 		switch (type) {
@@ -68,22 +75,34 @@ export default function Header() {
 				<ul>
 					<li
 						className={typeList.characters ? 'selected' : ''}
-						onClick={() => setType('characters')}>
+						onClick={() => {
+							setType('characters');
+							getAllCharacters();
+						}}>
 						CHARACTERS
 					</li>
 					<li
 						className={typeList.comics ? 'selected' : ''}
-						onClick={() => setType('comics')}>
+						onClick={() => {
+							setType('comics');
+							getAllComics();
+						}}>
 						COMICS
 					</li>
 					<li
 						className={typeList.series ? 'selected' : ''}
-						onClick={() => setType('series')}>
+						onClick={() => {
+							setType('series');
+							getAllSeries();
+						}}>
 						SERIES
 					</li>
 					<li
 						className={typeList.stories ? 'selected' : ''}
-						onClick={() => setType('stories')}>
+						onClick={() => {
+							setType('stories');
+							getAllStories();
+						}}>
 						STORIES
 					</li>
 				</ul>

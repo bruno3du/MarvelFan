@@ -24,6 +24,7 @@ interface CharacterType {
 		extension: string;
 	};
 }
+
 interface AllCharactersType {
 	count: number;
 	limit: number;
@@ -37,6 +38,8 @@ interface MarvelContexttype {
 	loading: boolean;
 	getAllComics: (offset?: number) => void;
 	getAllCharacters: (offset?: number) => void;
+	getAllSeries: (offset?: number) => void;
+	getAllStories: (offset?: number) => void;
 	typeList: {
 		characters: boolean;
 		comics: boolean;
@@ -106,6 +109,44 @@ export default function MarvelProvider({ children }: { children: ReactNode }) {
 		[apiKey, apiKeyPrivate]
 	);
 
+	const getAllSeries = useCallback(
+		(offset: number = 0) => {
+			setLoading(true);
+			const timestamp = new Date().getTime();
+			const hash = MD5(timestamp + apiKeyPrivate! + apiKey!).toString();
+			apiMarvel
+				.get(
+					`series?limit=${LIMITE}&offset=${offset}&ts=${timestamp}&apikey=${apiKey}&hash=${hash}`
+				)
+				.then((res) => {
+					const data = res.data.data;
+
+					setAllCharacters({
+						count: data.count,
+						limit: data.limit,
+						offset: data.offset,
+						total: data.total,
+						results: data.results.map((ele: CharacterType) => {
+							const newDate = formatDate(ele.modified);
+
+							return {
+								id: ele.id,
+								name: ele.name,
+								description: ele.description,
+								modified: newDate,
+								thumbnail: ele.thumbnail,
+							};
+						}),
+					});
+				})
+				.catch((err) => {
+					console.log(err);
+				})
+				.finally(() => setLoading(false));
+		},
+		[apiKey, apiKeyPrivate]
+	);
+
 	const getAllComics = useCallback(
 		(offset: number = 0) => {
 			setLoading(true);
@@ -117,7 +158,7 @@ export default function MarvelProvider({ children }: { children: ReactNode }) {
 				)
 				.then((res) => {
 					const data = res.data.data;
-					console.log(data.results);
+
 					setAllCharacters({
 						count: data.count,
 						limit: data.limit,
@@ -125,6 +166,7 @@ export default function MarvelProvider({ children }: { children: ReactNode }) {
 						total: data.total,
 						results: data.results.map((ele: CharacterType) => {
 							const newDate = formatDate(ele.modified);
+					
 							return {
 								id: ele.id,
 								title: ele.title,
@@ -143,6 +185,45 @@ export default function MarvelProvider({ children }: { children: ReactNode }) {
 		[apiKey, apiKeyPrivate]
 	);
 
+	const getAllStories = useCallback(
+		(offset: number = 0) => {
+			setLoading(true);
+			const timestamp = new Date().getTime();
+			const hash = MD5(timestamp + apiKeyPrivate! + apiKey!).toString();
+			apiMarvel
+				.get(
+					`stories?limit=${LIMITE}&offset=${offset}&ts=${timestamp}&apikey=${apiKey}&hash=${hash}`
+				)
+				.then((res) => {
+					const data = res.data.data;
+
+					setAllCharacters({
+						count: data.count,
+						limit: data.limit,
+						offset: data.offset,
+						total: data.total,
+						results: data.results.map((ele: CharacterType) => {
+							const newDate = formatDate(ele.modified);
+					
+							return {
+								id: ele.id,
+								title: ele.title,
+								description: ele.description,
+								modified: newDate,
+								thumbnail: ele.thumbnail,
+							};
+						}),
+					});
+				})
+				.catch((err) => {
+					console.log(err);
+				})
+				.finally(() => setLoading(false));
+		},
+		[apiKey, apiKeyPrivate]
+	);
+
+
 	return (
 		<MarvelContext.Provider
 			value={{
@@ -150,6 +231,8 @@ export default function MarvelProvider({ children }: { children: ReactNode }) {
 				allCharacters,
 				getAllCharacters,
 				getAllComics,
+				getAllSeries,
+				getAllStories,
 				typeList,
 				setTypeList,
 			}}>
@@ -161,9 +244,11 @@ export default function MarvelProvider({ children }: { children: ReactNode }) {
 export const useMarvel = () => {
 	const {
 		allCharacters,
-		getAllCharacters,
 		loading,
+		getAllCharacters,
+		getAllSeries,
 		getAllComics,
+		getAllStories,
 		typeList,
 		setTypeList,
 	} = useContext(MarvelContext);
@@ -171,8 +256,10 @@ export const useMarvel = () => {
 	return {
 		allCharacters,
 		getAllCharacters,
-		loading,
 		getAllComics,
+		getAllSeries,
+		getAllStories,
+		loading,
 		typeList,
 		setTypeList,
 	};
