@@ -14,9 +14,11 @@ export default function Header() {
 		getAllComics,
 		getAllSeries,
 		getAllStories,
+		setOffset,
 	} = useMarvel();
 
 	function setType(type: string) {
+		setOffset(0);
 		switch (type) {
 			case 'characters':
 				setTypeList({

@@ -15,16 +15,35 @@ import { Container, ListOfCard } from '../styles/HomeStyled';
 import LoadingState from '../components/LoadingState';
 
 const Home: NextPage = () => {
-	const { getAllCharacters, allCharacters, typeList, loading } = useMarvel();
-	const [offset, setOffset] = useState(0);
+	const {
+		getAllCharacters,
+		getAllComics,
+		getAllSeries,
+		getAllStories,
+		allCharacters,
+		typeList,
+		loading,
+		offset,
+		setOffset,
+	} = useMarvel();
 
 	const handlePagination = useCallback(() => {
-		getAllCharacters(offset);
-	}, [offset, getAllCharacters]);
+		if (typeList.comics) {
+			return getAllComics(offset);
+		} else if (typeList.series) {
+			return getAllSeries(offset);
+		} else if (typeList.stories) {
+			return getAllStories(offset);
+		} else {
+			return getAllCharacters(offset);
+		}
+		// eslint-disable-next-line
+	}, [offset, typeList.comics, typeList.series, typeList.stories]);
 
 	useEffect(() => {
 		handlePagination();
-	}, [handlePagination]);
+		// eslint-disable-next-line
+	}, [offset]);
 
 	const handleTitle = () => {
 		if (typeList.comics) {
@@ -53,22 +72,20 @@ const Home: NextPage = () => {
 				{loading ? (
 					<LoadingState />
 				) : (
-					<>
-						<ListOfCard>
-							{typeList.characters && (
-								<ListOfCharacters results={allCharacters.results} />
-							)}
-							{typeList.comics && (
-								<ListOfComics results={allCharacters.results} />
-							)}
-							{typeList.series && (
-								<ListOfSeries results={allCharacters.results} />
-							)}
-							{typeList.stories && (
-								<ListOfStories results={allCharacters.results} />
-							)}
-						</ListOfCard>
-					</>
+					<ListOfCard>
+						{typeList.characters && (
+							<ListOfCharacters results={allCharacters.results} />
+						)}
+						{typeList.comics && (
+							<ListOfComics results={allCharacters.results} />
+						)}
+						{typeList.series && (
+							<ListOfSeries results={allCharacters.results} />
+						)}
+						{typeList.stories && (
+							<ListOfStories results={allCharacters.results} />
+						)}
+					</ListOfCard>
 				)}
 				<Pagination
 					setOffset={setOffset}

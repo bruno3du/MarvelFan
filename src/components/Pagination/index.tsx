@@ -15,6 +15,7 @@ export default function Pagination({
 	limit,
 	total,
 	offset,
+
 	setOffset,
 }: PaginationProps) {
 	const MAX_ITEMS = 5;

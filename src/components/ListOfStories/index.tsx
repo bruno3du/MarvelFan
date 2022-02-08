@@ -21,7 +21,7 @@ interface ListOfStoriesType {
 }
 
 export default function ListOfStories({ results }: ListOfStoriesType) {
-	console.log(results);
+
 	return (
 		<>
 			{results?.map((character) => {

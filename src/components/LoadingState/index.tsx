@@ -1,6 +1,6 @@
 /** @format */
 
-import {CircularProgress} from '@mui/material'
+import { CircularProgress } from '@mui/material';
 
 export default function LoadingState({ height = '100vh' }) {
 	return (

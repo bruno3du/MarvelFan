@@ -54,6 +54,8 @@ interface MarvelContexttype {
 			stories: boolean;
 		}>
 	>;
+	offset: number;
+	setOffset: Dispatch<SetStateAction<number>>;
 }
 
 export const MarvelContext = createContext({} as MarvelContexttype);
@@ -63,6 +65,7 @@ export default function MarvelProvider({ children }: { children: ReactNode }) {
 	const apiKeyPrivate = process.env.NEXT_PUBLIC_MARVEL_API_KEY_PRIVATE;
 	const LIMITE = 9;
 	const [loading, setLoading] = useState(false);
+	const [offset, setOffset] = useState(0);
 	const [allCharacters, setAllCharacters] = useState({} as AllCharactersType);
 	const [typeList, setTypeList] = useState({
 		characters: true,
@@ -166,7 +169,7 @@ export default function MarvelProvider({ children }: { children: ReactNode }) {
 						total: data.total,
 						results: data.results.map((ele: CharacterType) => {
 							const newDate = formatDate(ele.modified);
-					
+
 							return {
 								id: ele.id,
 								title: ele.title,
@@ -204,7 +207,7 @@ export default function MarvelProvider({ children }: { children: ReactNode }) {
 						total: data.total,
 						results: data.results.map((ele: CharacterType) => {
 							const newDate = formatDate(ele.modified);
-					
+
 							return {
 								id: ele.id,
 								title: ele.title,
@@ -223,7 +226,6 @@ export default function MarvelProvider({ children }: { children: ReactNode }) {
 		[apiKey, apiKeyPrivate]
 	);
 
-
 	return (
 		<MarvelContext.Provider
 			value={{
@@ -235,6 +237,8 @@ export default function MarvelProvider({ children }: { children: ReactNode }) {
 				getAllStories,
 				typeList,
 				setTypeList,
+				offset,
+				setOffset,
 			}}>
 			{children}
 		</MarvelContext.Provider>
@@ -251,6 +255,8 @@ export const useMarvel = () => {
 		getAllStories,
 		typeList,
 		setTypeList,
+		offset,
+		setOffset,
 	} = useContext(MarvelContext);
 
 	return {
@@ -262,5 +268,7 @@ export const useMarvel = () => {
 		loading,
 		typeList,
 		setTypeList,
+		offset,
+		setOffset,
 	};
 };

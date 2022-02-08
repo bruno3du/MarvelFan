@@ -21,7 +21,7 @@ interface ListOfComicsType {
 }
 
 export default function ListOfComics({ results }: ListOfComicsType) {
-	console.log(results)
+
 	return (
 		<>
 			{results?.map((character) => {

@@ -21,7 +21,7 @@ interface ListOfSeriesType {
 }
 
 export default function ListOfSeries({ results }: ListOfSeriesType) {
-	console.log(results);
+
 	return (
 		<>
 			{results?.map((character) => {
